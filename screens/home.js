@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, FlatList, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../styles/global';
+import Card from '../shared/card';
 
 export default function Home({ navigation }) { // can take entire props object, or destructure this way
 
@@ -28,7 +29,9 @@ export default function Home({ navigation }) { // can take entire props object, 
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => 
                         navigation.navigate('reviewDetails', item)}> 
+                        <Card>
                         <Text style={globalStyles.titleText}>{ item.title }</Text>
+                        </Card>
                     </TouchableOpacity>
                 )}
             />

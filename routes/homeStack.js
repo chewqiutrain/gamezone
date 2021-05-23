@@ -1,8 +1,11 @@
+import React from 'react'; // need this to render the Header component 
 // Configure stack navigator 
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import Home from '../screens/home';
 import ReviewDetails from '../screens/reviewDetails';
+import Header from '../shared/header'; 
+import { Image, ImageBackground } from 'react-native'; 
 
 /**
  * In this tutorial, we use Stack navigation to navigate between the 
@@ -22,11 +25,12 @@ import ReviewDetails from '../screens/reviewDetails';
 const screens = {
     home: {
         screen: Home,
-        navigationOptions: { // specify options for this screen
-            title: "GameZone", // default is the key 'home'
+        navigationOptions: (props) => { // specify options for this screen
+            //title: "GameZone", // default is the key 'home'
             // headerStyle: {
             //     backgroundColor: "#eee"
-            // }
+            // } 
+            return { headerTitle: () => <Header props1={props} title='GameZone'/> } 
         }
     },
     reviewDetails: {
@@ -42,8 +46,16 @@ const screens = {
 
 const HomeStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
-        headerTintColor: "#444",
-        headerStyle: { backgroundColor: "#eee", height: 85 }
+        headerTintColor: "black",
+        headerStyle: { backgroundColor: "teal", height: 85 },
+        headerBackground: (<ImageBackground
+            source={require('../assets/game_bg.png')}
+            style={{
+                width: "100%",
+                height: "100%",
+                flex: 1
+            }}
+         />)
     }
 })
 
