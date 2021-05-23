@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, FlatList, View, StyleSheet, Modal, Text, TouchableOpacity } from 'react-native';
+import { Button, FlatList, View, StyleSheet, Modal, Text, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { globalStyles } from '../styles/global';
 import Card from '../shared/card';
 import { MaterialIcons } from '@expo/vector-icons';
+import ReviewForm from '../screens/reviewForm';
 
 export default function Home({ navigation }) { // can take entire props object, or destructure this way
 
@@ -14,6 +15,14 @@ export default function Home({ navigation }) { // can take entire props object, 
         { title: "Not so 'Final' Fantasy", rating: 3, body: "Lorem ipsum", key: "3"},
     ])
     
+    // a review object {title: , body: , rating:, key }
+    const addReview = (review) => {
+        review.key = Math.random().toString();
+        setReviews((currentReviews) => {
+            return [review, ...currentReviews]
+        });
+        setModalOpen(false);
+    }
 
     const pressHandler = () => {
         console.log("In Home, button pressed, going to ReviewDetails screen")
@@ -32,16 +41,18 @@ export default function Home({ navigation }) { // can take entire props object, 
             <Button title='Go to review details' onPress={pressHandler}/> */}
 
             <Modal visible={modalOpen} animationType='slide'> 
-                <View style={styles.modalContent}>
-                    <MaterialIcons 
-                    name='close'
-                    size={24}
-                    style={ { ...styles.modalToggle, ...styles.modalClose} }
-                    onPress={() => setModalOpen(false)}
-                    />
-                    <Text>Hello from the Modal!</Text>
-                </View>
-
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.modalContent}>
+                        <MaterialIcons 
+                        name='close'
+                        size={24}
+                        style={ { ...styles.modalToggle, ...styles.modalClose} }
+                        onPress={() => setModalOpen(false)}
+                        />
+                        <Text>Hello from the Modal!</Text>
+                        <ReviewForm addReview={addReview}/>
+                    </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
             <MaterialIcons 
@@ -84,3 +95,5 @@ const styles = StyleSheet.create({
         marginBottom: 0
     }
 })
+
+//Keyboard.dismiss is a reference to the function, same as () => Keyboard.dismiss()
